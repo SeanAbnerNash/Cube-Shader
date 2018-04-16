@@ -1,5 +1,8 @@
 #include <Game.h>
 
+
+//@Author SeanAbnerNash
+//@Login C00217019
 static bool flip;
 
 Game::Game() : window(VideoMode(800, 600), "OpenGL Cube Vertex and Fragment Shaders")
@@ -66,35 +69,7 @@ void Game::initialize()
 	updateVertices();//Sets up the Vertex Locations
 	setUpColour();//Sets up the Vertex colours
 
-	/* Vertices counter-clockwise winding */
-	//m_vertex[0].coordinate[0] = -0.5f;
-	//m_vertex[0].coordinate[1] = -0.5f;
-	//m_vertex[0].coordinate[2] = 0.0f;
 
-	//m_vertex[1].coordinate[0] = -0.5f;
-	//m_vertex[1].coordinate[1] = 0.5f;
-	//m_vertex[1].coordinate[2] = 0.0f;
-
-	//m_vertex[2].coordinate[0] = 0.5f;
-	//m_vertex[2].coordinate[1] = 0.5f;
-	//m_vertex[2].coordinate[2] = 0.0f;
-
-	//m_vertex[0].color[0] = 0.0f;
-	//m_vertex[0].color[1] = 0.0f;
-	//m_vertex[0].color[2] = 0.0f;
-	//m_vertex[0].color[3] = 1.0f;
-
-	//m_vertex[1].color[0] = 0.0f;
-	//m_vertex[1].color[1] = 0.0f;
-	//m_vertex[1].color[2] = 0.0f;
-	//m_vertex[1].color[3] = 1.0f;
-
-	//m_vertex[2].color[0] = 0.0f;
-	//m_vertex[2].color[1] = 0.0f;
-	//m_vertex[2].color[2] = 0.0f;
-	//m_vertex[2].color[3] = 1.0f;
-
-	/*Index of Poly / Triangle to Draw */
 	for (int index = 0; index < 36; index++)
 	{
 		triangles[index] = index;
@@ -115,7 +90,6 @@ void Game::initialize()
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLubyte) * 36, triangles, GL_STATIC_DRAW);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
-	/* Vertex Shader which would normally be loaded from an external file */
 	const char* vs_src = "#version 400\n\r"
 		"in vec4 sv_position;"
 		"in vec4 sv_color;"
@@ -143,13 +117,15 @@ void Game::initialize()
 		DEBUG_MSG("ERROR: Vertex Shader Compilation Error");
 	}
 
-	/* Fragment Shader which would normally be loaded from an external file */
 	const char* fs_src = "#version 400\n\r"
 		"in vec4 color;"
 		"out vec4 fColor;"
-		"void main() {"
-		"	fColor = vec4(1.0f, 1.0f, 1.0f, 1.0f);"
-		"}"; //Fragment Shader Src
+		"	void main(void)"
+	"{"
+		"gl_FragColor = vec4(0.0, 1.0, 0.0, 1.0);"//Colours the Cube Green
+	"}"; //Fragment Shader Src
+
+
 
 	DEBUG_MSG("Setting Up Fragment Shader");
 
@@ -287,18 +263,6 @@ void Game::update()
 	}
 	updateVertices();//Updates all the Vertices
 
-	////Change vertex data
-	//m_vertex[0].coordinate[0] += -0.0001f;
-	//m_vertex[0].coordinate[1] += -0.0001f;
-	//m_vertex[0].coordinate[2] += -0.0001f;
-
-	//m_vertex[1].coordinate[0] += -0.0001f;
-	//m_vertex[1].coordinate[1] += -0.0001f;
-	//m_vertex[1].coordinate[2] += -0.0001f;
-
-	//m_vertex[2].coordinate[0] += -0.0001f;
-	//m_vertex[2].coordinate[1] += -0.0001f;
-	//m_vertex[2].coordinate[2] += -0.0001f;
 
 #if (DEBUG >= 2)
 	DEBUG_MSG("Update up...");
@@ -319,6 +283,7 @@ void Game::render()
 
 	glBindBuffer(GL_ARRAY_BUFFER, vbo[0]);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, index);
+
 
 	/*	As the data positions will be updated by the this program on the
 		CPU bind the updated data to the GPU for drawing	*/
